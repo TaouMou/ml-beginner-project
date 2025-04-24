@@ -30,7 +30,7 @@ class ModelTrainer:
             X_train, y_train, X_test, y_test = train_array[:, :-1], train_array[:, -1], test_array[:, :-1], test_array[:, -1]
 
             models = {
-                # "Linear Regression": LinearRegression(),
+                "Linear Regression": LinearRegression(),
                 "Decision Tree": DecisionTreeRegressor(),
                 "Random Forest": RandomForestRegressor(),
                 "Gradient Boosting": GradientBoostingRegressor(),
@@ -41,7 +41,7 @@ class ModelTrainer:
             }
 
             params = {
-                # "Linear Regression": {},
+                "Linear Regression": {},
                 "Decision Tree": {
                     'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
                     'max_depth': [None, 10, 20, 40],
@@ -82,9 +82,15 @@ class ModelTrainer:
 
             model_report: dict = evaluate_models(X_train, y_train, X_test, y_test, models, params)
 
-            best_model_score = max(model_report.values())
-            best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
-            best_model = models[best_model_name]
+            best_model_score = 0.0
+            best_model_name = None
+            best_model = None
+
+            for model_name, report in model_report.items():
+                if report['r2_score'] > best_model_score:
+                    best_model_score = report['r2_score']
+                    best_model_name = model_name
+                    best_model = report['model']
 
             if best_model_score < 0.6:
                 raise CustomException("No model was found with sufficient accuracy.")
