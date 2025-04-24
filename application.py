@@ -29,7 +29,6 @@ def predict():
         )
 
         pred_data = data.get_data_as_dataframe()
-        print(pred_data)
 
         predict_pipeline = PredictPipeline()
         results = predict_pipeline.predict(pred_data)
