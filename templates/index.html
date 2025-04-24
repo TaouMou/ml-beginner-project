@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <title>ML Application</title>
 </head>
 <body>
-    <h1>Welcome to the front page.</h1>
+    <h1>Welcome to the front page</h1>
+    <p>This is a simple machine learning application.</p>
+    <p>Use the navigation links to explore different functionalities.</p>
+    <nav>
+        <ul>
+            <li><a href="/predict">Predict</a></li>
+        </ul>
 </body>
 </html>
