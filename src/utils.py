@@ -1,5 +1,7 @@
 import os
 import sys
+
+from sklearn.metrics import r2_score
 from src.exception import CustomException
 import joblib
 
@@ -13,3 +15,17 @@ def save_object(file_path, obj):
         joblib.dump(obj, file_path)
     except Exception as e:
         raise CustomException(e, sys)
+    
+def evaluate_models(X_train, y_train, X_test, y_test, models):
+    model_report = {}
+
+    for model_name, model in models.items():
+        try:
+            model.fit(X_train, y_train)
+            y_test_pred = model.predict(X_test)
+            r2 = r2_score(y_test, y_test_pred) 
+            model_report[model_name] = r2
+        except Exception as e:
+            raise CustomException(e, sys)
+
+    return model_report
